@@ -1,0 +1,138 @@
+﻿@using MVC_ProyectoFinal.Areas.Vuelos.Models;
+@using MVC_ProyectoFinal.Areas.Vuelos.Utils;
+@model Vuelo
+
+@{
+    List<Aerolinea> aerolineas = ListaAerolineas.Instancia().Aerolineas;
+    List<Ciudad>? ciudades = ListaCiudades.Instancia().Ciudades;
+    Solicitud? solicitud = BDsolicitud.Instancia().Solicitud;
+
+    int numAdultos = 0;
+    int numNinios = 0;
+    int numInfantes = 0;
+
+    if (solicitud != null)
+    {
+        numAdultos = solicitud.obtnNumAdultos(); 
+        numNinios = solicitud.obtnNumNinios(); 
+        numInfantes = solicitud.obtnNumInfantes(); 
+    }
+
+    double precioAdultos = 0;
+    double precioNinios = 0;
+    double precioInfantes = 0;
+
+    precioAdultos = Model.calcPrecioAdulto(numAdultos);
+    precioNinios = Model.calcPrecioMenorEdad(numNinios);
+    precioInfantes = Model.calcPrecioMenorEdad(numInfantes);
+
+    double total = precioAdultos + precioNinios + precioInfantes;
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>Costo de Reservación:</h1>
+
+    <div class="row justify-content-center">
+
+        <div class="container w-50 mx-3 my-0">
+
+            <div class="row border rounded-2">
+
+                <div class="col-3 ps-3 align-self-center">
+
+                    <img src="https://climalit.es/blog/wp-content/uploads/2018/05/edificios-eficientes-scaled.jpg"
+                         class="img-fluid" alt="...">
+
+                </div>
+
+                <div class="col-9 px-0">
+
+                    <div class="row px-3 fw-light m-0 justify-content-end">
+                        @Model.obtnAerolinea(Model.Aerolinea,aerolineas)
+                        <hr>
+                    </div>
+
+                    <div class="row fw-bold fs-6 pt-4 px-3 m-0">
+
+                        <div class="col-4 text-center">
+                            @Model.obtnCiudad(Model.Origen,ciudades)
+                        </div>
+                        <div class="col-4 text-center">-></div>
+                        <div class="col-4 text-center">
+                            @Model.obtnCiudad(Model.Destino,ciudades)
+                        </div>
+
+                    </div>
+
+                    <div class="row fw-light fs-4 pb-5 px-3 m-0">
+
+                        <div class="col-4 text-center">@Model.HSalida</div>
+                        <div class="col-4 fs-5 text-center">@Model.obtnTiempoVuelo()</div>
+                        <div class="col-4 text-center">@Model.HLlegada</div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="container w-50 m-3 border rounded-2">
+
+            <div class="row">
+
+                <div class="col mx-3 mt-3">
+
+                    <div class="row fw-bold">Adultos:</div>
+                    <div class="row fw-bold">Niños:</div>
+                    <div class="row fw-bold">Infantes:</div>
+
+                </div>
+
+                <div class="col mx-3 mt-3">
+
+                    <div class="row">@precioAdultos USD</div>
+                    <div class="row">@precioNinios USD</div>
+                    <div class="row">@precioInfantes USD</div>
+
+                </div>
+
+            </div>
+
+            <div class="row border-top">
+
+                <div class="col text-end px-3 pb-3 fw-bolder">TOTAL:</div>
+                <div class="col px-3 pb-3">@total USD</div>
+
+            </div>
+
+        </div>
+
+        <div class="container w-50 mx-3 my-0">
+
+            <div class="row justify-content-end">
+
+                <div class="col-4 px-0">
+
+                    <a asp-action="FormPasajero"class="btn btn-primary rounded-0 w-100">
+                        Confirmar</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+</div>
+
+</body>
+</html>

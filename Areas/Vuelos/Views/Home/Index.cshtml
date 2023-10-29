@@ -1,0 +1,133 @@
+﻿@using MVC_ProyectoFinal.Areas.Vuelos.Models;
+@using MVC_ProyectoFinal.Areas.Vuelos.Utils;
+
+
+@{
+    List<Ciudad>? ciudades = ListaCiudades.Instancia().Ciudades;
+    List<Acompaniante>? acompaniantes = ListaAcompaniantes.Instancia().Acompaniantes;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ab-datepicker@latest/css/datepicker.css" type="text/css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ab-datepicker@latest"></script>
+
+</head>
+
+<body>
+
+    <h1>Buscar vuelo</h1>
+
+    <form method="post">
+
+        <div class="container w-75 rounded-2 px-3 py-3 bg-primary">
+
+            <div class="row rounded mx-0 px-3 py-3 bg-info">
+
+                <div class="col-4">
+                    <div class="form-floating">
+                        <select class="form-select" id="cboOrigen" name="Origen">
+                            @mostrarCiudades(ciudades)
+                        </select>
+                        <label for="cboOrigen">Origen:</label>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-floating">
+                        <select class="form-select" id="cboDestino" name="Destino">
+                            @mostrarCiudades(ciudades)
+                        </select>
+                        <label for="cboDestino">Destino:</label>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-floating">
+                        <input class="date form-control h-100" id="fSalida"
+                        name="fSalida" type="date" placeholder="d/M/y"
+                        title="format: dd/MM/y"/>
+                        <label for="fSalida">Fecha de Salida:</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mx-0 mb-3 pt-3">
+
+                <h5 class="text-light">Acompañantes:</h5>
+                <hr class="border border-light"/>
+
+                <div class="col-4">
+                    <div class="form-floating">
+                        <input type="number" min="0" max="8" class="form-control"
+                               id="txtCampo" placeholder="name@example.com" value="0"
+                               name="Adultos">
+                        <label for="txtCampo">Adultos</label>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-floating">
+                        <input type="number" min="0" max="8" class="form-control"
+                               id="txtCampo" placeholder="name@example.com" value="0"
+                               name="Ninios">
+                        <label for="txtCampo">Niños</label>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-floating">
+                        <input type="number" min="0" max="8" class="form-control"
+                               id="txtCampo" placeholder="name@example.com" value="0"
+                               name="Infantes">
+                        <label for="txtCampo">Infantes</label>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="container w-75 px-0 py-3">
+            <div class="row mx-0 justify-content-end">
+
+                <div class="col-4 px-0">
+                    <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.date').datepicker();
+        });
+    </script>
+   
+</body>
+</html>
+
+@functions {
+    async Task mostrarCiudades(List<Ciudad>? ciudades)
+    {
+        if (ciudades != null)
+        {
+            foreach (var item in ciudades)
+            {
+                <option value="@item.Id">@item.Nombre</option>
+            }
+        }
+        else
+        {
+            <option>loading...</option>
+        }
+    }
+}

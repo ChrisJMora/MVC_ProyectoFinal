@@ -1,0 +1,163 @@
+﻿@using MVC_ProyectoFinal.Areas.Vuelos.Models;
+@using MVC_ProyectoFinal.Areas.Vuelos.Models.Pasajeros;
+@using MVC_ProyectoFinal.Areas.Vuelos.Utils;
+
+@model Pasajero
+
+@{
+    List<Ciudad>? ciudades = ListaCiudades.Instancia().Ciudades;
+    List<Acompaniante>? acompaniantes = ListaAcompaniantes.Instancia().Acompaniantes;
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ab-datepicker@latest/css/datepicker.css" type="text/css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ab-datepicker@latest"></script>
+
+</head>
+<body>
+
+    <h2>FormPasajero</h2>
+
+    <form method="post">
+
+        <div class="container rounded-2 w-50 p-3 bg-primary">
+
+                @if (Model is Adulto)
+                {
+                    <div class="row mx-0 mb-3 text-light fw-light justify-content-end">
+                        Adulto
+                </div>
+            }else if (Model is MenorEdad)
+            {
+                MenorEdad pasajero = (MenorEdad)Model;
+                if (pasajero.Tipo)
+                {
+                    <div class="row mx-0 mb-3 text-light fw-light justify-content-end">
+                        Menor de edad (Niño)
+                    </div>
+                }else
+                {
+                    <div class="row mx-0 mb-3 text-light fw-light justify-content-end">
+                        Menor de edad (Infante)
+                    </div>
+                }
+            }
+
+            <div class="row mx-0 mb-3">
+
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="txtNombre"
+                               name="Nombre">
+                        <label for="txtNombre">Nombres</label>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="txtApellido"
+                               name="Apellido">
+                        <label for="txtApellido">Apellidos</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mx-0 mb-3">
+
+                <div class="col-8">
+                    <div class="form-floating">
+                        <input class="date form-control h-100" id="fNacimiento"
+                               name="fNacimiento" type="date" placeholder="d/M/y"
+                               title="format: dd/MM/y" />
+                        <label for="fNacimiento">Fecha de nacimiento:</label>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-floating">
+                        <select class="form-select" id="cboGenero" name="Genero">
+                            <option value="true">Hombre</option>
+                            <option value="false">Mujer</option>
+                        </select>
+                        <label for="cboGenero">Género</label>
+                    </div>
+                </div>
+
+            </div>
+
+
+            @if (Model is Adulto)
+            {
+                <div class="row mx-0 mb-3">
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="txtMail"
+                                   placeholder="name@example.com" value="mdo@example.com" name="Mail">
+                            <label for="txtMail">Correo Electrónico</label>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="txtTelefono"
+                                   placeholder="name@example.com" value="+593" name="Telefono">
+                            <label for="txtTelefono">Teléfono</label>
+                        </div>
+                    </div>
+
+                </div>
+            }else if (Model is MenorEdad)
+            {
+                <div class="row mx-0">
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="cboRepresentante">
+                                <option value="true">Christian Jácome</option>
+                            </select>
+                            <label for="cboRepresentante">Representante</label>
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+
+        </div>
+
+            <div class="container rounded-2 w-50 p-3">
+
+                <div class="row justify-content-end" >
+
+                    <div class="col-6 px-0">
+
+                        <button asp-route-Id="@Model.Id" class="btn btn-primary rounded-0 w-100"
+                        type="submit">Guardar</button>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+    </form>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.date').datepicker();
+        });
+    </script>
+
+</body>
+</html>
