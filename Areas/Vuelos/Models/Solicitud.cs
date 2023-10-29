@@ -57,6 +57,24 @@ namespace MVC_ProyectoFinal.Areas.Vuelos.Models
             }
         }
 
+        public List<Pasajero> obtnRepresentantes()
+        {
+            List<Pasajero> representantes = new List<Pasajero>();
+            foreach (Pasajero pasajero in _acompaniantes)
+            {
+                if (pasajero is Adulto)
+                {
+                    representantes.Add(pasajero);
+                }
+            }
+            return representantes;
+        }
+
+        public Pasajero obtnPasajero(int id)
+        {
+            return _acompaniantes[id];
+        }
+
         public bool verificarViaje(int Origen, int Destino)
         {
             return Origen == Destino;

@@ -25,16 +25,39 @@ namespace MVC_ProyectoFinal.Areas.Vuelos.Controllers
         public IActionResult FormPasajero()
         {
             Pasajero? pasajero = _solicitud?.siguiente();
+
+            if (pasajero == null) { return RedirectToAction("Index"); }
+
             return View(pasajero);
         }
 
         [HttpPost]
         public IActionResult FormPasajero(int Id, string Nombre, string Apellido,
-            DateOnly fNacimiento, bool Genero)
+            DateOnly fNacimiento, bool Genero, string Mail, string Telefono,
+            int Representante)
         {
             Console.WriteLine($"Indice: {Id}");
             Console.WriteLine($"Nombre: {Nombre}, Apellido {Apellido}");
             Console.WriteLine($"Fecha de Nacimiento: {fNacimiento}, Genero: {Genero}");
+            Console.WriteLine($"Mail: {Mail}, Genero: {Telefono}");
+            Console.WriteLine($"Representante: {Representante}");
+
+            Pasajero pasajero = _solicitud.obtnPasajero(Id);
+
+            pasajero.Nombre = Nombre;
+            pasajero.Apellido = Apellido;
+            pasajero.FNacimiento = fNacimiento;
+            pasajero.Genero = Genero;
+
+            if ( pasajero is Adulto)
+            {
+                (pasajero as Adulto).Mail = Mail;
+                (pasajero as Adulto).Telefono = Telefono;
+            }else if ( pasajero is MenorEdad )
+            {
+                (pasajero as MenorEdad).Representante = Representante;
+            }
+
             return RedirectToAction("FormPasajero");
         }
 
@@ -50,6 +73,10 @@ namespace MVC_ProyectoFinal.Areas.Vuelos.Controllers
             return View(vuelo);
         }
 
+        public IActionResult InfoPasajeros()
+        {
+            return View();
+        }
 
 
         // GET: VueloController/Details/5
