@@ -1,0 +1,131 @@
+﻿@using MVC_ProyectoFinal.Areas.Flights.Models.Catalogues
+@using MVC_ProyectoFinal.Areas.Flights.Models.Control
+@using MVC_ProyectoFinal.API_Service
+
+@model List<Flight>
+
+@{
+    FlightControl flightControl = FlightControl.Instance();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogo de Vuelos</title>
+</head>
+
+<body>
+
+    @if (Model == null || Model.Count == 0)
+    {
+        <h1>No hay vuelos disponibles</h1>
+    }
+    else
+    {
+        <h1>Vuelos Disponibles</h1>
+
+        @foreach (var item in Model)
+        {
+
+            <div class="row justify-content-center">
+
+                <div class="container border rounded-2 w-75 mx-0 my-3 px-3 py-3">
+
+                    <!--Encabezado---------------------------------------------->
+                    <div class="row justify-content-end m-0">
+
+                        <div class="col-3 fw-bold text-center">Económico</div>
+                        <div class="col-3 fw-bold text-center">Preferencial</div>
+
+                    </div>
+                    <!---------------------------------------------------------->
+
+                    <div class="row m-0">
+
+                        <!--Detalles del vuelo------------------------------------->
+                        <div class="col-6 px-0">
+
+                            <div class="row px-3 fw-light m-0 justify-content-end">
+                                @await flightControl.GetAirlane(item.AirlineFlight)
+                                <hr>
+                            </div>
+
+                            <div class="row fw-bold fs-6 pt-4 px-3 m-0">
+
+                                <div class="col-4 text-center">
+                                    @await flightControl.GetCity(item.OriginFlight)
+                                </div>
+                                <div class="col-4 text-center"> -> </div>
+                                <div class="col-4 text-center">
+                                    @await flightControl.GetCity(item.DestinationFlight)
+                                </div>
+
+                            </div>
+
+                            <div class="row fw-light fs-4 pb-5 px-3 m-0">
+
+                                <div class="col-4 text-center">@item.DepartureTimeFlight</div>
+                                <div class="col-4 fs-5 text-center">(@item.GetTimeFlight())</div>
+                                <div class="col-4 text-center">@item.ArrivalTimeFlight</div>
+
+                            </div>
+                        </div>
+                        <!--------------------------------------------------------->
+                        <!--Precio------------------------------------------------------------------>
+                        <div class="col-3 px-0">
+
+                            <a asp-action="FlightDetails" asp-route-IdFlight="@item.IdFlight"
+                               asp-route-Class="true" class="btn btn-primary rounded-0 w-100 h-100">
+
+                                <div class="row align-content-center h-100">
+
+                                    <div class="row justify-content-center fw-bolder fs-4 m-0">
+                                        @item.PriceFlight USD
+                                    </div>
+
+                                    <div class="row justify-content-center fs-6 m-0">
+                                        por Adulto
+                                    </div>
+
+                                </div>
+                            </a>
+
+                        </div>
+                        <!-------------------------------------------------------------------------->
+                        <!--Precio Preferecial------------------------------------------------------>
+                        <div class="col-3 px-0">
+
+                            <a asp-action="FlightDetails" asp-route-IdFlight="@item.IdFlight"
+                               asp-route-Class="false" class="btn btn-outline-primary rounded-0 w-100 h-100">
+
+                                <div class="row align-content-center h-100">
+
+                                    <div class="row justify-content-center fw-bolder fs-4 m-0">
+                                        @item.PrefPriceFlight USD
+                                    </div>
+
+                                    <div class="row justify-content-center fs-6 m-0">
+                                        por Adulto
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+                        <!-------------------------------------------------------------------------->
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        }
+    }
+
+</body>
+</html>

@@ -1,10 +1,22 @@
-﻿@{
+﻿@using MVC_ProyectoFinal.API_Service;
+@using MVC_ProyectoFinal.Areas.Flights.Models.Passengers;
+@using MVC_ProyectoFinal.Areas.Flights.Models;
+@{
     ViewData["Title"] = "Home Page";
+
+    await API_Service<Passenger>.Instance().Delete(1);
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-1">Tourist Bay</h1>
 </div>
 
-<a asp-area="Vuelos" asp-controller="Home" asp-action="Index">Hacia vuelos...</a>
+<div class="row justify-content-center">
+    <a asp-area="Flights" asp-controller="Flight" asp-action="FormFlight"
+       class="btn btn-primary w-25 m-3">BUSCAR VUELOS</a>
+</div>
+
+<div class="row justify-content-center">
+    <img src="https://www.aeropuertoquito.aero/wp-content/uploads/2023/01/aeropuerto_quito.jpeg"
+    class="img-fluid" alt="Responsive image">
+</div>

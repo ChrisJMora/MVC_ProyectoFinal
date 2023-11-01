@@ -1,0 +1,74 @@
+﻿
+@using MVC_ProyectoFinal.Areas.Flights.Models.Passengers;
+@using MVC_ProyectoFinal.Areas.Flights.Models.Control;
+
+@model List<Passenger>
+
+@{
+    PassengerControl passengerControl = PassengerControl.Instance();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de los pasajeros</title>
+</head>
+<body>
+
+    <form method="post">
+
+        <div class="container w-50 p-0 m-0">
+
+            <div class="row justify-content-center m-0">
+
+                <table class="table w-100">
+
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (Passenger passenger in Model)
+                        {
+                            <tr>
+                                <td class="fw-light"><em>@await passengerControl.GetTypePassenger(passenger.TypePassenger)</em></td>
+                                <td>@passenger.FirstNamePassenger</td>
+                                <td>@passenger.LastNamePassenger</td>
+                                <td>
+                                    @if (passenger.TypePassenger == 1)
+                                    {
+                                        <a asp-action="EditAdult" asp-route-IdPassenger="@passenger.IdPassenger"
+                                            class="btn btn-primary">Editar</a>
+                                    }
+                                    else if (passenger.TypePassenger == 2 || passenger.TypePassenger == 3)
+                                    {
+                                        <a asp-action="EditYounger" asp-route-IdPassenger="@passenger.IdPassenger"
+                                            class="btn btn-primary">Editar</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="row justify-content-start m-0">
+
+                <a class="btn btn-primary w-25" asp-area="Views" asp-controller="Home" asp-action="Index">Confirmar</a>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</body>
+</html>

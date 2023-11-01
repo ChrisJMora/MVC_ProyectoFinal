@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MVC_ProyectoFinal.API_Service;
+using MVC_ProyectoFinal.Areas.Flights.Models.Passengers;
 using MVC_ProyectoFinal.Models;
 using System.Diagnostics;
 
@@ -21,6 +23,13 @@ namespace MVC_ProyectoFinal.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Reservas()
+        {
+            List<Passenger>? passengers = await API_Service<Passenger>.Instance().Get();
+            if (passengers == null) { return View(); }
+            return View(passengers);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

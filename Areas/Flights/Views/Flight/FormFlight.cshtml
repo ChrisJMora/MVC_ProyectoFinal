@@ -1,0 +1,163 @@
+﻿@using MVC_ProyectoFinal.Areas.Flights.Models.Catalogues
+@using MVC_ProyectoFinal.Areas.Flights.Models.Control
+@using MVC_ProyectoFinal.Areas.Flights.Models.Passengers
+@using MVC_ProyectoFinal.API_Service
+
+@model List<Flight>
+
+@{
+    FlightControl flightControl = FlightControl.Instance();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ab-datepicker@latest/css/datepicker.css" type="text/css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ab-datepicker@latest"></script>
+
+    <title>Formulario Vuelo</title>
+</head>
+
+<body>
+
+    <h1>Buscar vuelo</h1>
+
+    <form method="post">
+
+        <div class="container w-75 rounded-2 px-3 py-3 bg-primary">
+
+            <!--Formulario del vuelo------------------------------------------------->
+            <div class="row rounded mx-0 px-3 py-3 bg-info">
+
+                <!--Select Ciudades | Origen ---------------------------------------->
+                <div class="col-4">
+
+                    <div class="form-floating">
+
+                        <select class="form-select" id="cboOrigin" name="Origin">
+                            @showCities(await API_Service<City>.Instance().Get())
+                        </select>
+
+                        <label for="cboOrigin">Origen:</label>
+
+                    </div>
+
+                </div>
+                <!------------------------------------------------------------------->
+
+                <!--Select Ciudades | Destino --------------------------------------->
+                <div class="col-4">
+
+                    <div class="form-floating">
+
+                        <select class="form-select" id="cboDestination" name="Destination">
+                            @showCities(await API_Service<City>.Instance().Get())
+                        </select>
+
+                        <label for="cboDestination">Destino:</label>
+
+                    </div>
+
+                </div>
+                <!------------------------------------------------------------------->
+
+                <!--Calendario | Fecha de Salida ---------------------------->
+                <div class="col-4">
+
+                    <div class="form-floating">
+
+                        <input class="date form-control h-100" id="DepartureDate"
+                               name="DepartureDate" type="date" placeholder="d/M/y"
+                               title="format: dd/MM/y" />
+
+                        <label for="DepartureDate">Fecha de Salida:</label>
+
+                    </div>
+
+                </div>
+                <!----------------------------------------------------------->
+
+            </div>
+            <!----------------------------------------------------------------------->
+
+            <!--Formulario de acompañantes--------------------------------------------------------->
+            <div class="row mx-0 mb-3 pt-3">
+                
+                <!--Titulo ----------------------------->
+                <h5 class="text-light">Acompañantes:</h5>
+                <hr class="border border-light" />
+                <!-------------------------------------->
+
+                <!--Formulario número de pasajeros por cada tipo de pasajero ---------------------->
+                @{List<PassengerType>? types = await API_Service<PassengerType>.Instance().Get(); }
+                @if (types != null)
+                {
+                    for (int i = 0; i < types.Count; i++)
+                    {
+                        <div class="col-4">
+
+                            <div class="form-floating">
+
+                                <!--Número de Pasajeros por cada tipo-->
+                                <input type="number" min="0" max="4" class="form-control"
+                                       id="txtField" name="numOfPassengers[@i]" value="0" />
+
+                                <label for="txtField">@types[i].NamePassengerType</label>
+
+                            </div>
+
+                        </div>
+                    }
+                }
+                <!--------------------------------------------------------------------------------->
+
+            </div>
+            <!------------------------------------------------------------------------------------->
+
+        </div>
+
+        <!--Botón: Buscar Vuelo ------------------------------------------------------>
+        <div class="container w-75 px-0 py-3">
+
+            <div class="row mx-0 justify-content-end">
+
+                <div class="col-4 px-0">
+                    <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                </div>
+
+            </div>
+
+        </div>
+        <!----------------------------------------------------------------------------->
+
+    </form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.date').datepicker();
+        });
+    </script>
+
+</body>
+</html>
+
+@functions {
+    async Task showCities(List<City>? cities)
+    {
+        if (cities != null)
+        {
+            foreach (var item in cities)
+            {
+                <option value="@item.IdCity">@item.NameCity</option>
+            }
+        }
+        else
+        {
+            <option>loading...</option>
+        }
+    }
+}

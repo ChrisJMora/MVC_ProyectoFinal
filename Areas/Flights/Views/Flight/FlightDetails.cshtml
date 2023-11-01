@@ -1,0 +1,146 @@
+﻿
+@using MVC_ProyectoFinal.Areas.Flights.Models.Control;
+@using MVC_ProyectoFinal.Areas.Flights.Models.Catalogues;
+@using MVC_ProyectoFinal.Areas.Flights.Models.Passengers;
+@using MVC_ProyectoFinal.API_Service
+
+@model Flight
+
+@{
+    FlightControl flightControl = FlightControl.Instance();
+    PassengerControl passengerControl = PassengerControl.Instance();
+
+    double price = 0;
+    double total = 0;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del vuelo</title>
+
+</head>
+
+<body>
+
+    <h1>Detales del vuelo:</h1>
+
+    <div class="row justify-content-center">
+
+        <div class="container w-50 mx-3 my-0">
+
+            <div class="row border rounded-2">
+
+                <!--Imagen del destino del vuelo ---------------------------------------------------------------->
+                <div class="col-3 ps-3 align-self-center">
+
+                    <img src="https://climalit.es/blog/wp-content/uploads/2018/05/edificios-eficientes-scaled.jpg"
+                         class="img-fluid" alt="...">
+
+                </div>
+                <!----------------------------------------------------------------------------------------------->
+
+                <!--Detalles del vuelo ------------------------------------------------>
+                <div class="col-9 px-0">
+
+                    <div class="row px-3 fw-light m-0 justify-content-end">
+                        @await flightControl.GetAirlane(Model.AirlineFlight)
+                        <hr>
+                    </div>
+
+                    <div class="row fw-bold fs-6 pt-4 px-3 m-0">
+
+                        <div class="col-4 text-center">
+                            @await flightControl.GetCity(Model.OriginFlight)
+                        </div>
+
+                        <div class="col-4 text-center"> ->  </div>
+
+                        <div class="col-4 text-center">
+                            @await flightControl.GetCity(Model.DestinationFlight)
+                        </div>
+
+                    </div>
+
+                    <div class="row fw-light fs-4 pb-5 px-3 m-0">
+
+                        <div class="col-4 text-center">@Model.DepartureTimeFlight</div>
+                        <div class="col-4 fs-5 text-center">@Model.GetTimeFlight()</div>
+                        <div class="col-4 text-center">@Model.ArrivalTimeFlight</div>
+
+                    </div>
+
+                </div>
+                <!--------------------------------------------------------------------->
+
+            </div>
+
+        </div>
+
+        <div class="container w-50 m-3 border rounded-2">
+            
+            <!--Precios individuales por cada tipo de pasajeros ---------------------------------------------->
+            <div class="row">
+
+                @{
+                    List<PassengerType>? types = await API_Service<PassengerType>.Instance().Get();
+                }
+                @if (types != null)
+                {
+
+                    <div class="col mx-3 mt-3">
+                        @foreach (PassengerType type in types)
+                        {
+                            <!--Etiquetas de los tipos de pasajeros-->
+                            <div class="row fw-bold">@type.NamePassengerType:</div>
+                        }
+                    </div>
+
+                    <div class="col mx-3 mt-3">
+                        @foreach (PassengerType type in types)
+                        {
+                            <!--Precios por cada tipo de pasajeros-->
+                            price = passengerControl.GetPrice(type, flightControl.GetPrice(Model, type));
+                            total += price;
+                            <div class="row">@price USD</div>
+                        }
+                    </div>
+                }
+
+            </div>
+            <!------------------------------------------------------------------------------------------------>
+
+            <!--Precio Total -------------------------------------------->
+            <div class="row border-top">
+
+                <div class="col text-end px-3 pb-3 fw-bolder">TOTAL:</div>
+                <div class="col px-3 pb-3">@total USD</div>
+
+            </div>
+            <!----------------------------------------------------------->
+
+        </div>
+
+        <!--Boton de Confirmar----------------------------------------------------------------------->
+        <div class="container w-50 mx-3 my-0">
+
+            <div class="row justify-content-end">
+
+                <div class="col-4 px-0">
+
+                    <a asp-action="FormPassenger" class="btn btn-primary rounded-0 w-100">Confirmar</a>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!------------------------------------------------------------------------------------------->
+
+    </div>
+
+</body>
+</html>

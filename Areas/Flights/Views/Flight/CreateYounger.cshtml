@@ -1,0 +1,153 @@
+﻿
+@using MVC_ProyectoFinal.Areas.Flights.Models.Control;
+@using MVC_ProyectoFinal.Areas.Flights.Models.Passengers;
+
+@model int
+
+@{
+    FlightControl flightControl = FlightControl.Instance();
+    PassengerControl passengerControl = PassengerControl.Instance();
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Menor de Edad</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ab-datepicker@latest/css/datepicker.css" type="text/css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ab-datepicker@latest"></script>
+
+</head>
+<body>
+
+    <form method="post">
+
+        <h2>FormPasajero</h2>
+
+        <div class="container rounded-2 w-50 p-3 bg-primary">
+
+            <div class="container rounded-2 w-50 p-3 bg-primary">
+
+                <!--Titulo del menor edad | Niño o Infante-->
+                @if (Model == 2)
+                {
+                    <div class="row mx-0 mb-3 text-light fw-light justify-content-end">
+                        Menor de edad (Niño)
+                    </div>
+                }
+                else if (Model == 3)
+                {
+                    <div class="row mx-0 mb-3 text-light fw-light justify-content-end">
+                        Menor de edad (Infante)
+                    </div>
+                }
+
+            </div>
+
+            <!--Formulario Pasajero ---------------------------------------------------------------------------->
+            <div class="row mx-0 mb-3">
+
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="txtNombre"
+                               name="FirstName" value="Nombre">
+                        <label for="txtNombre">Nombres</label>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="txtApellido"
+                               name="LastName" value="Lastname">
+                        <label for="txtApellido">Apellidos</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mx-0 mb-3">
+
+                <div class="col-8">
+                    <div class="form-floating">
+                        <input class="date form-control h-100" id="fNacimiento"
+                               name="BirthDay" type="date" placeholder="d/M/y"
+                               title="format: dd/MM/y"/>
+                        <label for="fNacimiento">Fecha de nacimiento:</label>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-floating">
+                        <select class="form-select" id="cboGenero" name="Gender">
+                            <option value="true">Hombre</option>
+                            <option value="false">Mujer</option>
+                        </select>
+                        <label for="cboGenero">Género</label>
+                    </div>
+                </div>
+
+            </div>
+            <!-------------------------------------------------------------------------------------------------->
+
+            <!--Formulario Menor de edad ----------------------------------------------------------------------->
+            <div class="row mx-0">
+
+                <div class="col-6">
+
+                    <div class="form-floating">
+
+                        <select class="form-select" id="cboRepresentante" name="Adult">
+
+                            @{List<Adult>? adults = await passengerControl.GetAdults(); }
+                            @if (adults != null)
+                            {
+                                @foreach (Adult adult in adults)
+                                {
+                                    <option value="@adult.IdPassenger">
+                                        @adult.FirstNamePassenger @adult.LastNamePassenger
+                                    </option>
+                                }
+                            }
+
+                        </select>
+                        <label for="cboRepresentante">Representante</label>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-------------------------------------------------------------------------------------------------->
+
+        </div>
+
+        <!--Boton Guardar--------------------------------------------------------------------------->
+        <div class="container rounded-2 w-50 p-3">
+
+            <div class="row justify-content-end" >
+
+                <div class="col-6 px-0">
+
+                    <button asp-route-Type="@Model" class="btn btn-primary rounded-0 w-100"
+                        type="submit">Guardar</button>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!------------------------------------------------------------------------------------------>
+
+    </form>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.date').datepicker();
+        });
+    </script>
+
+</body>
+</html>

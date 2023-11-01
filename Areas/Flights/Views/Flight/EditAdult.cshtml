@@ -1,0 +1,124 @@
+﻿@using MVC_ProyectoFinal.Areas.Flights.Models.Passengers;
+
+@model Adult
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Pasajero Adulto</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ab-datepicker@latest/css/datepicker.css" type="text/css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ab-datepicker@latest"></script>
+
+</head>
+<body>
+
+    <h2>FormPasajero</h2>
+
+    <form method="post">
+
+        <div class="container rounded-2 w-50 p-3 bg-primary">
+
+            <div class="row mx-0 mb-3 text-light fw-light justify-content-end">
+                Adulto
+            </div>
+
+            <!--Formulario Pasajero ---------------------------------------------------------------------------->
+            <div class="row mx-0 mb-3">
+
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input asp-for="FirstNamePassenger" type="text" class="form-control" id="txtNombre"
+                               name="FirstName" value="@Model.FirstNamePassenger">
+                        <label for="txtNombre">Nombres</label>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input asp-for="LastNamePassenger" type="text" class="form-control" id="txtApellido"
+                               name="LastName" value="@Model.LastNamePassenger">
+                        <label for="txtApellido">Apellidos</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mx-0 mb-3">
+
+                <div class="col-8">
+                    <div class="form-floating">
+                        <input asp-for="BirthDatePassenger" class="date form-control h-100" id="fNacimiento"
+                               name="fNacimiento" type="date" placeholder="d/M/y"
+                               title="format: dd/MM/y" />
+                        <label for="fNacimiento">Fecha de nacimiento:</label>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-floating">
+                        <select asp-for="GenderPassenger" class="form-select" id="cboGenero" name="Genero">
+                            <option value="true">Hombre</option>
+                            <option value="false">Mujer</option>
+                        </select>
+                        <label for="cboGenero">Género</label>
+                    </div>
+                </div>
+
+            </div>
+            <!-------------------------------------------------------------------------------------------------->
+            <!--Formulario Adulto ------------------------------------------------------------------------------>
+            <div class="row mx-0 mb-3">
+
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input asp-for="EmailAdult" type="email" class="form-control" id="txtMail"
+                               name="Email">
+                        <label for="txtMail">Correo Electrónico</label>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input asp-for="PhoneAdult" type="text" class="form-control" id="txtTelefono"
+                               name="Phone">
+                        <label for="txtTelefono">Teléfono</label>
+                    </div>
+                </div>
+
+            </div>
+            <!-------------------------------------------------------------------------------------------------->
+
+        </div>
+
+        <!--Boton Guardar ------------------------------------------>
+        <div class="container rounded-2 w-50 p-3">
+
+            <div class="row justify-content-end">
+
+                <div class="col-6 px-0">
+
+                    <button asp-route-IdPassenger="@Model.IdPassenger" class="btn btn-primary rounded-0 w-100"
+                            type="submit">
+                        Guardar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!---------------------------------------------------------->
+
+    </form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.date').datepicker();
+        });
+    </script>
+
+</body>
+</html>

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC_ProyectoFinal", "MVC_ProyectoFinal.csproj", "{21F9ADF1-A480-4882-BE56-A0C472291BFA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_TouristBay", "..\Comercio Digital\API_TouristBay\API_TouristBay.csproj", "{472167C7-82D1-44DB-9D59-C0E43AFEF874}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{21F9ADF1-A480-4882-BE56-A0C472291BFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21F9ADF1-A480-4882-BE56-A0C472291BFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21F9ADF1-A480-4882-BE56-A0C472291BFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{472167C7-82D1-44DB-9D59-C0E43AFEF874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{472167C7-82D1-44DB-9D59-C0E43AFEF874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{472167C7-82D1-44DB-9D59-C0E43AFEF874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{472167C7-82D1-44DB-9D59-C0E43AFEF874}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
